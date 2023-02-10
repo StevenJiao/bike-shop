@@ -102,3 +102,44 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Build outputs
+bin/
+obj/
+
+# Visual Studio folders
+*.csproj.user
+.vs/
+
+# NuGet packages
+*.nupkg
+packages/
+
+# .NET Core
+project.lock.json
+*.log
+
+# .NET Core tools
+.dotnet/
+
+# User-specific files
+*.suo
+*.user
+*.DS_Store
+
+# Environment variables
+.env
+
+# Secrets
+secrets/
+
+# JetBrains Rider
+.idea/
+
+# SQL Server files
+*.mdf
+*.ldf
+
+# Windows files
+Thumbs.db
+ehthumbs.db
