@@ -6,10 +6,12 @@ import useForm from '../hooks/useForm'
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { createAPIEndpoint, ENDPOINTS } from '../api'
 
 const getFreshModel = () => ({
   name: '',
-  password: '',
+  pwd: '',
+  salt: 'none'
 })
 
 export default function Login() {
@@ -25,12 +27,18 @@ export default function Login() {
     e.preventDefault()
     if (validate())
         console.log(values)
+        createAPIEndpoint(ENDPOINTS.authenticate)
+            .post(values)
+            .then(res => {
+                // handle next page to enter in values for items
+            })
+            .catch(err => console.log(err))
   }
 
   const validate = () => {
     let temp = {}
     temp.name = values.name !== "" ? "" : "Invalid name"
-    temp.password = values.password !== "" ? "" : "Invalid password"
+    temp.pwd = values.pwd !== "" ? "" : "Invalid password"
     setErrors(temp)
     return Object.values(temp).every(x => x === "")
   }
@@ -64,11 +72,11 @@ export default function Login() {
                   {...(errors.name && {errors:"true", helperText:errors.name})}
                 />
                 <TextField
-                    name='password' 
+                    name='pwd' 
                     id='password' 
-                    value={values.password}
+                    value={values.pwd}
                     onChange={handleInputChange}
-                    {...(errors.password && {errors:"true", helperText:errors.password})}
+                    {...(errors.pwd && {errors:"true", helperText:errors.pwd})}
                     type={showPassword ? 'text' : 'password'}
                     label="Password"
                     variant="outlined"
@@ -88,7 +96,7 @@ export default function Login() {
                     variant='contained' 
                     sx={{ width: "90%" }}
                 >
-                    Login
+                Login
                 </Button>
             </form>
           </Box>
