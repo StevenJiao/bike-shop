@@ -143,3 +143,4 @@ secrets/
 # Windows files
 Thumbs.db
 ehthumbs.db
+/server/server/App.config
