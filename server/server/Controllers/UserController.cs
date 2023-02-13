@@ -42,7 +42,7 @@ namespace server.Controllers
                 return BadRequest("Bad Password");
             }
 
-            return Ok();
+            return Ok(user.Name);
         }
 
         [HttpPost("create_user")]
