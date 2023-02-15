@@ -25,7 +25,7 @@ export default function Chart() {
 
   return (
     <React.Fragment>
-      <Title>Today</Title>
+      <Title>This Week</Title>
       <ResponsiveContainer>
         <LineChart
           data={data}
@@ -36,34 +36,61 @@ export default function Chart() {
             left: 24,
           }}
         >
-          <XAxis
-            dataKey="time"
-            stroke={theme.palette.text.secondary}
-            style={theme.typography.body2}
-          />
-          <YAxis
-            stroke={theme.palette.text.secondary}
-            style={theme.typography.body2}
-          >
-            <Label
-              angle={270}
-              position="left"
-              style={{
-                textAnchor: 'middle',
-                fill: theme.palette.text.primary,
-                ...theme.typography.body1,
-              }}
+            <XAxis
+                dataKey="time"
+                stroke={
+                    theme.palette.mode === 'light'
+                        ? theme.palette.grey[100]
+                        : theme.palette.grey[900]
+                }
+                style={theme.typography.body2}
             >
-              Sales ($)
-            </Label>
-          </YAxis>
-          <Line
-            isAnimationActive={false}
-            type="monotone"
-            dataKey="amount"
-            stroke={theme.palette.primary.main}
-            dot={false}
-          />
+                {/* <Label
+                    position="middle"
+                    style={{
+                        textAnchor: 'middle',
+                        fill: theme.palette.mode === 'light'
+                                ? theme.palette.grey[100]
+                                : theme.palette.grey[900],
+                        ...theme.typography.body1,
+                    }}
+                >
+                Date
+                </Label> */}
+            </XAxis>
+            <YAxis
+                stroke={
+                    theme.palette.mode === 'light'
+                        ? theme.palette.grey[100]
+                        : theme.palette.grey[900]
+                }
+                style={theme.typography.body2}
+            >
+                <Label
+                    angle={270}
+                    position="left"
+                    style={{
+                        textAnchor: 'middle',
+                        fill: theme.palette.mode === 'light'
+                                ? theme.palette.grey[100]
+                                : theme.palette.grey[900],
+                        ...theme.typography.body1,
+                    }}
+                >
+                Sales ($)
+                </Label>
+            </YAxis>
+            <Line
+                isAnimationActive={false}
+                type="monotone"
+                dataKey="amount"
+                stroke={
+                    theme.palette.mode === 'light'
+                        ? theme.palette.grey[100]
+                        : theme.palette.grey[900]
+                }
+                dot={false}
+            />
         </LineChart>
       </ResponsiveContainer>
     </React.Fragment>
