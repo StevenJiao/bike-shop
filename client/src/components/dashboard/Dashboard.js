@@ -121,9 +121,9 @@ function DashboardContent() {
               Bike Store Administrator Analytics
             </Typography>
             <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
+              {/* <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
-              </Badge>
+              </Badge> */}
             </IconButton>
           </Toolbar>
         </AppBar>
@@ -150,10 +150,10 @@ function DashboardContent() {
         <Box
           component="main"
           sx={{
-            backgroundColor: (theme) =>
-              theme.palette.mode === 'light'
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
+            // backgroundColor: (theme) =>
+            //   theme.palette.mode === 'light'
+            //     ? theme.palette.grey[100]
+            //     : theme.palette.grey[900],
             flexGrow: 1,
             height: '100vh',
             overflow: 'auto',
