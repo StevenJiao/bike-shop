@@ -36,7 +36,7 @@ export default function Login() {
                 .post(values)
                 .then(res => {
                     setContext({name: res.data})
-                    navigate('/order')
+                    navigate('/analytics')
                 })
                 .catch(err => console.log(err))
     }
