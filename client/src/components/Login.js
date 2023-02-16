@@ -64,7 +64,7 @@ export default function Login() {
                     <Box sx={{
                         '& .MuiTextField-root': {
                             margin: 1,
-                            width: "90%"
+                            width: "50%"
                         }
                     }}>
                         <form noValidate autoComplete="off" onSubmit={login}>
@@ -100,9 +100,9 @@ export default function Login() {
                             <Button 
                                 type="submit" 
                                 variant='contained' 
-                                sx={{ width: "90%" }}
+                                sx={{ width: "40%", m: 4 }}
                             >
-                            Login
+                                Login
                             </Button>
                         </form>
                     </Box>
