@@ -1,14 +1,13 @@
-import React, { useContext, useState, useEffect } from 'react';
-import useStateContext, { stateContext } from '../hooks/useStateContext';
+import React, { useState, useEffect, useContext } from 'react';
 import { Box } from '@mui/system'
-import Center from './Center';
 import dayjs from 'dayjs';
-import { Button, Card, CardContent, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
+import { Button, Card, CardContent, FormControl, Grid, TextField } from '@mui/material';
 import useForm from '../hooks/useForm'
 import OrderSummary from './OrderSummary';
 import DateTimeSelect from './DateTimeSelect';
 import BikeMenuSelect from './BikeMenuSelect';
 import { createAPIEndpoint, ENDPOINTS } from '../api';
+import { stateContext } from '../hooks/useStateContext';
 
 const getFreshModel = () => ({
     customer_name: '',
@@ -16,7 +15,14 @@ const getFreshModel = () => ({
 });
 
 export default function Order() {
-    const [data, setData] = useState([]);
+    const [itemData, setData] = useState([]);
+    const [orderDate, setOrderDate] = useState(dayjs());
+    const [selectedMenuItem, setSelectedMenuItem] = useState({ name: '', price: '' });
+    const [selectedQty, setSelectedQty] = useState(0);
+    const [summaryItems, setSummaryitems] = useState([]);
+    const { admin_name } = useContext(stateContext);
+    
+    const total = summaryItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
     useEffect(() => {
         createAPIEndpoint(ENDPOINTS.itemAll)
@@ -28,19 +34,41 @@ export default function Order() {
     }, []);
 
     const placeOrder = e => {
-        // e.preventDefault();
+        e.preventDefault();
+        let payload = {
+            id: `${values.order_date.toString(36)}-${values.customer_name}`,
+            adminName: "test",
+            customerName: values.customer_name,
+            order_date: values.order_date,
+            total_price: total,
+            orderitems: summaryItems.reduce((acc, item) => {
+                acc[item.name] = item.quantity
+                return acc
+            }, {})
+        };
+        console.log(payload);
         createAPIEndpoint(ENDPOINTS.order)
-            .post(values)
+            .post(payload)
             .then(res => {
                 setData(res.data);
             })
             .catch(err => console.log(err));
     }
 
-    let addedItems = [];
-    const addItem = e => {
+    const handleMenuItemChange = (event) => {
+        const selectedValue = event.target.value;
+        const selectedMenuItemObject = itemData.find((item) => item.name === selectedValue);
+        setSelectedMenuItem(selectedMenuItemObject);
+    };
+
+    const addItem = (e) => {
         e.preventDefault();
-    }
+        let item = {}
+        item.name = selectedMenuItem.name;
+        item.price = selectedMenuItem.price;
+        item.quantity = selectedQty;
+        setSummaryitems([...summaryItems, item]);
+    };
 
     const {        
         values,
@@ -65,14 +93,16 @@ export default function Order() {
                             <form noValidate autoComplete="off" onSubmit={placeOrder}>
                                 <TextField
                                     name='customer_name'
-                                    label='customer name'>
+                                    label='customer name'
+                                    value={values.customer_name}
+                                    onChange={handleInputChange}
+                                >
                                 </TextField>
                                 <DateTimeSelect
                                     name="order_date"
-                                    value={values.order_date} 
-                                    onChange={handleInputChange}
+                                    value={orderDate} 
+                                    onChange={(newValue) => {setOrderDate(newValue)}}
                                 ></DateTimeSelect>
-                                {console.log(values)}
                                 <Button 
                                     type="submit" 
                                     variant='contained' 
@@ -95,9 +125,9 @@ export default function Order() {
                                             <BikeMenuSelect
                                                 id="item_name"
                                                 name="item_name"
-                                                value={values.item_name}
-                                                onChange={handleInputChange}
-                                                data={data}
+                                                value={selectedMenuItem.name}
+                                                onChange={handleMenuItemChange}
+                                                data={itemData}
                                             />
                                         </Grid>
                                         <Grid item xs={3}>
@@ -105,7 +135,8 @@ export default function Order() {
                                                 id="item_qty"
                                                 name="item_qty"
                                                 label='Qty'
-                                                value={values.qty}
+                                                value={selectedQty}
+                                                onChange={(e) => setSelectedQty(e.target.value)}
                                                 inputProps={{ 
                                                     inputMode: 'numeric', 
                                                     pattern: '[0-9]*' 
@@ -128,7 +159,10 @@ export default function Order() {
                 </Card>
             </Grid>
             <Grid xs={4} item>
-                <OrderSummary></OrderSummary>
+                <OrderSummary
+                    items={summaryItems}
+                    total={total}
+                />
             </Grid>
         </Grid>
     )

@@ -1,15 +1,6 @@
-import { useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
-function OrderSummary(props) {
-  const [items, setItems] = useState([
-    // { name: 'Product A', price: 10.00, quantity: 2 },
-    // { name: 'Product B', price: 5.50, quantity: 1 },
-    // { name: 'Product C', price: 15.25, quantity: 3 }
-  ]);
-
-  const total = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
-
+function OrderSummary({items, total}) {
   return (
     <TableContainer component={Paper}>
       <Table>

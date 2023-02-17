@@ -12,11 +12,10 @@ export default function BikeMenuSelect(props) {
                 name={props.name}
                 label='Item Name'
                 onChange={props.onChange}
-                value={props.item_name}
-                item_price={props.item_price}
+                value={props.value}
             >
-                {props.data.map(item => (
-                    <MenuItem key={item.name} value={item.name} item_price={item.price}>{item.name}</MenuItem>
+                {props.data && props.data.map(item => (
+                    <MenuItem key={item.name} value={item.name}>{item.name}</MenuItem>
                 ))}
             </Select>
         </div>
