@@ -7,13 +7,11 @@ import { Button, Card, CardContent, FormControl, Grid, InputLabel, MenuItem, Sel
 import useForm from '../hooks/useForm'
 import OrderSummary from './OrderSummary';
 import DateTimeSelect from './DateTimeSelect';
+import BikeMenuSelect from './BikeMenuSelect';
 
 const getFreshModel = () => ({
-    name: '',
-    pwd: '',
     item_name: '',
-    date_time: dayjs(),
-    salt: 'none'
+    date_time: dayjs()
 });
 
 export default function Order() {
@@ -36,8 +34,8 @@ export default function Order() {
     } = useForm(getFreshModel);
     
     return (
-        <Grid container spacing={0}>
-            <Grid xs={6} item>
+        <Grid container spacing={2}>
+            <Grid xs={4} item>
                 <Card sx={{ width: "400"}}>
                     <CardContent sx={{textAlign: 'center'}}>
                         <Box sx={{
@@ -71,51 +69,58 @@ export default function Order() {
                 </Card>
             </Grid>
 
-            <Grid xs={4} ml={5} item>
+            <Grid xs={4} item>
                 <Card sx={{ width: "400"}}>
                     <CardContent sx={{textAlign: 'center'}}>
-                        {/* <Box sx={{
-                                '& .MuiTextField-root': {
-                                    margin: 1,
-                                    width: "90%"
-                                }
-                            }}
-                        > */}
-                            <FormControl noValidate autoComplete="off" onSubmit={addItem}>
-                                <InputLabel id="item_select_label">Item Name</InputLabel>
-                                <Select
-                                    labelId="item_select_label"
-                                    id="item_name"
-                                    name="item_name"
-                                    label='Item Name'
-                                    onChange={handleInputChange}
-                                    value={values.item_name}
-                                >
-                                    <MenuItem value={"Mountain Bike"}>Mountain Bike</MenuItem>
-                                </Select>
-                                <TextField 
-                                    id="item_qty"
-                                    name="item_qty"
-                                    label='Qty'
-                                    inputProps={{ 
-                                        inputMode: 'numeric', 
-                                        pattern: '[0-9]*' 
-                                    }} 
-                                />
-                                <Button 
-                                    type="submit" 
-                                    variant='contained' 
-                                    sx={{ width: "50%", mt: 3 }}
-                                >
-                                    Add Item
-                                </Button>
-                            </FormControl>
-                        {/* </Box> */}
+                            <form noValidate autoComplete="off" onSubmit={addItem}>
+                                <FormControl >
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={9}>
+                                            <BikeMenuSelect
+                                                id="item_name"
+                                                name="item_name"
+                                                value={values.item_name}
+                                                onChange={handleInputChange}
+                                            />
+                                            {/* <InputLabel id="item_select_label">Item Name</InputLabel>
+                                            <Select
+                                                labelId="item_select_label"
+                                                id="item_name"
+                                                name="item_name"
+                                                label='Item Name'
+                                                onChange={handleInputChange}
+                                                value={values.item_name}
+                                                sx={{width:"100%"}}
+                                            >
+                                            </Select> */}
+                                        </Grid>
+                                        <Grid item xs={3}>
+                                            <TextField 
+                                                id="item_qty"
+                                                name="item_qty"
+                                                label='Qty'
+                                                inputProps={{ 
+                                                    inputMode: 'numeric', 
+                                                    pattern: '[0-9]*' 
+                                                }}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <Button 
+                                                type="submit" 
+                                                variant='contained' 
+                                                sx={{ width: "50%", mt: 3 }}
+                                            >
+                                                Add Item
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
+                                </FormControl>
+                            </form>
                     </CardContent>
                 </Card>
             </Grid>
-
-            <Grid item>
+            <Grid xs={4} item>
                 <OrderSummary></OrderSummary>
             </Grid>
         </Grid>
