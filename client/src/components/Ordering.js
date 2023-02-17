@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import useStateContext, { stateContext } from '../hooks/useStateContext';
 import { Box } from '@mui/system'
 import Center from './Center';
@@ -8,19 +8,36 @@ import useForm from '../hooks/useForm'
 import OrderSummary from './OrderSummary';
 import DateTimeSelect from './DateTimeSelect';
 import BikeMenuSelect from './BikeMenuSelect';
+import { createAPIEndpoint, ENDPOINTS } from '../api';
 
 const getFreshModel = () => ({
-    item_name: '',
-    date_time: dayjs()
+    customer_name: '',
+    order_date: dayjs()
 });
 
 export default function Order() {
-    const { context, setContext } = useStateContext();
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        createAPIEndpoint(ENDPOINTS.itemAll)
+            .get()
+            .then(res => {
+                setData(res.data);
+            })
+            .catch(err => console.log(err));
+    }, []);
 
     const placeOrder = e => {
         // e.preventDefault();
+        createAPIEndpoint(ENDPOINTS.order)
+            .post(values)
+            .then(res => {
+                setData(res.data);
+            })
+            .catch(err => console.log(err));
     }
 
+    let addedItems = [];
     const addItem = e => {
         e.preventDefault();
     }
@@ -50,10 +67,10 @@ export default function Order() {
                                     name='customer_name'
                                     label='customer name'>
                                 </TextField>
-                                <DateTimeSelect 
-                                    value={values.date_time} 
+                                <DateTimeSelect
+                                    name="order_date"
+                                    value={values.order_date} 
                                     onChange={handleInputChange}
-                                    name="date_time"
                                 ></DateTimeSelect>
                                 {console.log(values)}
                                 <Button 
@@ -68,7 +85,6 @@ export default function Order() {
                     </CardContent>
                 </Card>
             </Grid>
-
             <Grid xs={4} item>
                 <Card sx={{ width: "400"}}>
                     <CardContent sx={{textAlign: 'center'}}>
@@ -81,24 +97,15 @@ export default function Order() {
                                                 name="item_name"
                                                 value={values.item_name}
                                                 onChange={handleInputChange}
+                                                data={data}
                                             />
-                                            {/* <InputLabel id="item_select_label">Item Name</InputLabel>
-                                            <Select
-                                                labelId="item_select_label"
-                                                id="item_name"
-                                                name="item_name"
-                                                label='Item Name'
-                                                onChange={handleInputChange}
-                                                value={values.item_name}
-                                                sx={{width:"100%"}}
-                                            >
-                                            </Select> */}
                                         </Grid>
                                         <Grid item xs={3}>
                                             <TextField 
                                                 id="item_qty"
                                                 name="item_qty"
                                                 label='Qty'
+                                                value={values.qty}
                                                 inputProps={{ 
                                                     inputMode: 'numeric', 
                                                     pattern: '[0-9]*' 
