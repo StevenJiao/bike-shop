@@ -42,10 +42,10 @@ namespace server.Controllers
                 return BadRequest("Bad Password");
             }
 
-            return Ok();
+            return Ok(user.Name);
         }
 
-        [HttpPost("create_user")]
+        [HttpPost("create")]
         public async Task<ActionResult<User>> CreateUser([FromBody] User user)
         {
              // Generate a random salt value
