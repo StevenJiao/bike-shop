@@ -3,9 +3,14 @@ import React, { createContext, useContext, useState, useEffect } from 'react'
 
 export const stateContext = createContext();
 
-const getFreshContext = () => ({
-    name: 'NO_USER_LOGGED_IN'
-})
+const getFreshContext = () => {
+    if (localStorage.getItem('context') == null) {
+        localStorage.setItem('context', JSON.stringify({
+            admin_name: 'NO_USER_LOGGED_IN'
+        }))
+    }
+    return JSON.parse(localStorage.getItem('context'));
+}
 
 export default function useStateContext() {
     const { context, setContext } = useContext(stateContext)

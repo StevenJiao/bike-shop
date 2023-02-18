@@ -7,11 +7,10 @@ import OrderSummary from './OrderSummary';
 import DateTimeSelect from './DateTimeSelect';
 import BikeMenuSelect from './BikeMenuSelect';
 import { createAPIEndpoint, ENDPOINTS } from '../api';
-import { stateContext } from '../hooks/useStateContext';
+import useStateContext from '../hooks/useStateContext';
 
 const getFreshModel = () => ({
-    customer_name: '',
-    order_date: dayjs()
+    customer_name: ''
 });
 
 export default function Order() {
@@ -20,7 +19,7 @@ export default function Order() {
     const [selectedMenuItem, setSelectedMenuItem] = useState({ name: '', price: '' });
     const [selectedQty, setSelectedQty] = useState(0);
     const [summaryItems, setSummaryitems] = useState([]);
-    const { admin_name } = useContext(stateContext);
+    const { context, setContext } = useStateContext();
     
     const total = summaryItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
@@ -34,13 +33,13 @@ export default function Order() {
     }, []);
 
     const placeOrder = e => {
-        e.preventDefault();
+        // e.preventDefault();
         let payload = {
-            id: `${values.order_date.toString(36)}-${values.customer_name}`,
-            adminName: "test",
+            id: `${orderDate.format()}-${values.customer_name}`,
+            adminName: context.admin_name,
             customerName: values.customer_name,
-            order_date: values.order_date,
-            total_price: total,
+            orderDate: orderDate.format(),
+            totalPrice: total,
             orderitems: summaryItems.reduce((acc, item) => {
                 acc[item.name] = item.quantity
                 return acc

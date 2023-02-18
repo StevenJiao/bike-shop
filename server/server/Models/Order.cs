@@ -15,10 +15,10 @@ namespace server.Models
         public string CustomerName { get; set; }
 
         [JsonProperty(PropertyName = "order_date")]
-        public DateTime OrderDate { get; set; }
+        public string OrderDate { get; set; }
 
         [JsonProperty(PropertyName = "order_items")]
-        public Dictionary<string, int> OrderItems { get; set; }
+        public Dictionary<string, int>? OrderItems { get; set; }
 
         [JsonProperty(PropertyName = "total_price")]
         public int TotalPrice { get; set; }

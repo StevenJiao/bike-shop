@@ -7,14 +7,13 @@ import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { createAPIEndpoint, ENDPOINTS } from '../api';
-import useStateContext from '../hooks/useStateContext';
+import useStateContext, { stateContext } from '../hooks/useStateContext';
 import { useNavigate } from 'react-router';
 import { Copyright } from './Copyright';
 
 const getFreshModel = () => ({
     name: '',
-    pwd: '',
-    salt: 'none'
+    pwd: ''
 });
 
 export default function Login() {
@@ -30,12 +29,18 @@ export default function Login() {
     } = useForm(getFreshModel);
 
     const login = e => {
-        e.preventDefault()
+        e.preventDefault();
+
+        let payload = {
+            name: values.name,
+            pwd: values.pwd
+        }
+
         if (validate())
             createAPIEndpoint(ENDPOINTS.authenticate)
-                .post(values)
+                .post(payload)
                 .then(res => {
-                    setContext({name: res.data});
+                    setContext({admin_name: res.data});
                     navigate('/dashboard/analytics');
                 })
                 .catch(err => console.log(err));

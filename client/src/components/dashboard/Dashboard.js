@@ -14,6 +14,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { mainListItems } from './ListItems';
 import { Copyright } from '../Copyright';
+import useStateContext from '../../hooks/useStateContext';
 
 const drawerWidth = 240;
 
@@ -63,6 +64,11 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 function DashboardContent(props) {
     const [open, setOpen] = React.useState(true);
+
+    const { context, setContext } = useStateContext();
+
+    console.log(context);
+
     const toggleDrawer = () => {
         setOpen(!open);
     };
