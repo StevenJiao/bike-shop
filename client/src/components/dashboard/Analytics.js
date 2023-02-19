@@ -5,9 +5,11 @@ import Deposits from './Deposits';
 import Orders from './Orders';
 import React, { useState, useEffect } from 'react';
 import { createAPIEndpoint, ENDPOINTS } from '../../api';
+import { useNavigate } from 'react-router-dom';
 
 export default function Analytics() {
     const [orderData, setOrderData] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         createAPIEndpoint(ENDPOINTS.orderAll)
@@ -15,7 +17,10 @@ export default function Analytics() {
             .then(res => {
                 setOrderData(res.data);
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log(err);
+                navigate('/');
+            });
     }, []);
     
     return (
