@@ -6,23 +6,23 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from './Title';
 import dayjs from 'dayjs';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 // Generate Order Data
 function createData(id, date, name, orderer, amount) {
   return { id, date, name, orderer, amount };
 }
 
-function preventDefault(event) {
-  event.preventDefault();
-}
+// function preventDefault(event) {
+//   event.preventDefault();
+// }
 
 export default function Orders({orderData}) {
   const rows = useRef([]);
   useEffect(() => {
     if (orderData.length > 0) {
       let freshRows = []
-      Object.keys(orderData).slice(0,5).forEach((key, ind) => {
+      Object.keys(orderData).forEach((key, ind) => {
         freshRows.push(
           createData(ind, dayjs(orderData[key].orderDate).format('YYYY-MM-DD'), orderData[key].customerName, orderData[key].adminName, orderData[key].totalPrice )
         )
@@ -54,9 +54,9 @@ export default function Orders({orderData}) {
           ))}
         </TableBody>
       </Table>
-      <Link color="primary" href="/dashboard/orders" onClick={preventDefault} sx={{ mt: 3 }}>
+      {/* <Link color="primary" href="/dashboard/orders" onClick={preventDefault} sx={{ mt: 3 }}>
         See more orders
-      </Link>
+      </Link> */}
     </Fragment>
   );
 }

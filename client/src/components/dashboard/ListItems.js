@@ -20,11 +20,11 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Ordering" />
     </ListItemButton>
-    <ListItemButton href="/dashboard/orders">
+    {/* <ListItemButton href="/dashboard/orders">
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
       <ListItemText primary="All Orders" />
-    </ListItemButton>
+    </ListItemButton> */}
   </React.Fragment>
 );
