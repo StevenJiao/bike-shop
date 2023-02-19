@@ -39,7 +39,11 @@ namespace server.Controllers
             List<Order> orders = new();
 
             // get iterator of orders
-            FeedIterator<Order> feedIterator = _client.GetContainer(databaseId, collectionId).GetItemQueryIterator<Order>("SELECT * FROM c");
+            FeedIterator<Order> feedIterator = _client
+                .GetContainer(databaseId, collectionId)
+                .GetItemQueryIterator<Order>(
+                    "SELECT * FROM c ORDER BY c.order_date"
+                );
 
             // iterate over all results
             while (feedIterator.HasMoreResults)

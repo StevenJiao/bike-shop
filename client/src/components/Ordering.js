@@ -45,8 +45,7 @@ export default function Order() {
                 return acc
             }, {})
         };
-        console.log(payload);
-        createAPIEndpoint(ENDPOINTS.order)
+        createAPIEndpoint(ENDPOINTS.orderCreate)
             .post(payload)
             .then(res => {
                 setData(res.data);

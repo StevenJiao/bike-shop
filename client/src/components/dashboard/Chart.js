@@ -1,34 +1,40 @@
-import * as React from 'react';
+import {useEffect, Fragment, useRef }from 'react';
 import { useTheme } from '@mui/material/styles';
 import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
 import Title from './Title';
+import dayjs from 'dayjs';
 
 // Generate Sales Data
 function createData(time, amount) {
   return { time, amount };
 }
 
-const data = [
-  createData('00:00', 0),
-  createData('03:00', 300),
-  createData('06:00', 600),
-  createData('09:00', 800),
-  createData('12:00', 1500),
-  createData('15:00', 2000),
-  createData('18:00', 2400),
-  createData('21:00', 2400),
-  createData('24:00', undefined),
-];
-
-export default function Chart() {
+export default function Chart({orderData}) {
   const theme = useTheme();
+  const data = useRef([]);
+
+  useEffect(() => {
+    if (orderData.length > 0) {
+      let reducedData = orderData.reduce((acc, order) => {
+        let date = dayjs(order.orderDate).format('YYYY-MM-DD');
+        (date in acc) ? acc[date] += order.totalPrice : acc[date] = order.totalPrice;
+        return acc
+      }, {})
+
+      let freshData = []
+      for (const date in reducedData) {
+        freshData.push(createData(date, reducedData[date]))
+      }
+      data.current = freshData;
+    }
+  }, [orderData])
 
   return (
-    <React.Fragment>
-      <Title>This Week</Title>
+    <Fragment>
+      <Title>All Time</Title>
       <ResponsiveContainer>
         <LineChart
-          data={data}
+          data={data.current}
           margin={{
             top: 16,
             right: 16,
@@ -93,6 +99,6 @@ export default function Chart() {
             />
         </LineChart>
       </ResponsiveContainer>
-    </React.Fragment>
+    </Fragment>
   );
 }

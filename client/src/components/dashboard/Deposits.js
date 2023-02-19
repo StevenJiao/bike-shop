@@ -16,7 +16,7 @@ export default function Deposits({orderData}) {
         ${total}
       </Typography>
       <Typography color="text.secondary" sx={{ flex: 1 }}>
-        on {dayjs().local().format('ddd, DD MMM YYYY HH:mm A')}
+        as of {dayjs().local().format('ddd, DD MMM YYYY HH:mm A')}
       </Typography>
     </React.Fragment>
   );
