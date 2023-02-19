@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { createAPIEndpoint, ENDPOINTS } from '../api';
-import useStateContext, { stateContext } from '../hooks/useStateContext';
+import useStateContext from '../hooks/useStateContext';
 import { useNavigate } from 'react-router';
 import { Copyright } from './Copyright';
 
