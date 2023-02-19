@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/system'
 import dayjs from 'dayjs';
 import { Button, Card, CardContent, FormControl, Grid, TextField } from '@mui/material';
@@ -45,8 +45,7 @@ export default function Order() {
                 return acc
             }, {})
         };
-        console.log(payload);
-        createAPIEndpoint(ENDPOINTS.order)
+        createAPIEndpoint(ENDPOINTS.orderCreate)
             .post(payload)
             .then(res => {
                 setData(res.data);

@@ -1,27 +1,23 @@
 import * as React from 'react';
-import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Title from './Title';
+import dayjs from 'dayjs';
 
-function preventDefault(event) {
-  event.preventDefault();
-}
+const utc = require('dayjs/plugin/utc');
+dayjs.extend(utc);
 
-export default function Deposits() {
+export default function Deposits({orderData}) {
+  const total = orderData.reduce((acc, order) => acc + order.totalPrice, 0);
+
   return (
     <React.Fragment>
       <Title>Total sales</Title>
       <Typography component="p" variant="h4">
-        $3,024.00
+        ${total}
       </Typography>
       <Typography color="text.secondary" sx={{ flex: 1 }}>
-        on 15 March, 2019
+        as of {dayjs().local().format('ddd, DD MMM YYYY HH:mm A')}
       </Typography>
-      <div>
-        {/* <Link color="primary" href="#" onClick={preventDefault}>
-          View balance
-        </Link> */}
-      </div>
     </React.Fragment>
   );
 }
