@@ -41,6 +41,8 @@ export default function Login() {
                 .post(payload)
                 .then(res => {
                     setContext({admin_name: res.data});
+                    let authData = btoa(payload.name + ':' + payload.pwd);
+                    localStorage.setItem('authData', authData);
                     navigate('/dashboard/analytics');
                 })
                 .catch(err => console.log(err));

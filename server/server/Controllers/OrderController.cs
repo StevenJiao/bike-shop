@@ -3,9 +3,11 @@ using Microsoft.Azure.Cosmos;
 using server.Models;
 using Order = server.Models.Order;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace server.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class OrderController : Controller

@@ -8,6 +8,7 @@ import DateTimeSelect from './DateTimeSelect';
 import BikeMenuSelect from './BikeMenuSelect';
 import { createAPIEndpoint, ENDPOINTS } from '../api';
 import useStateContext from '../hooks/useStateContext';
+import { useNavigate } from 'react-router-dom';
 
 const getFreshModel = () => ({
     customer_name: ''
@@ -20,6 +21,7 @@ export default function Order() {
     const [selectedQty, setSelectedQty] = useState(0);
     const [summaryItems, setSummaryitems] = useState([]);
     const { context, setContext } = useStateContext();
+    const navigate = useNavigate();
     
     const total = summaryItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
@@ -29,7 +31,10 @@ export default function Order() {
             .then(res => {
                 setData(res.data);
             })
-            .catch(err => console.log(err));
+            .catch(err =>{ 
+                console.log(err);
+                navigate('/');
+            });
     }, []);
 
     const placeOrder = e => {
