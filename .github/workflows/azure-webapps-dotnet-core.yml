@@ -61,11 +61,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: where are we lol
-        run: ls
-
       - name: Build with dotnet
-        run: dotnet build server.csproj --configuration Release
+        run: cd ./server && dotnet build server.csproj --configuration Release
 
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
