@@ -20,7 +20,7 @@ export default function Order() {
     const [selectedMenuItem, setSelectedMenuItem] = useState({ name: '', price: '' });
     const [selectedQty, setSelectedQty] = useState(0);
     const [summaryItems, setSummaryitems] = useState([]);
-    const { context, setContext } = useStateContext();
+    const { context } = useStateContext();
     const navigate = useNavigate();
     
     const total = summaryItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
@@ -35,7 +35,7 @@ export default function Order() {
                 console.log(err);
                 navigate('/');
             });
-    }, []);
+    }, [navigate]);
 
     const placeOrder = e => {
         // e.preventDefault();
@@ -76,8 +76,8 @@ export default function Order() {
     const {        
         values,
         // setValues,
-        errors,
-        setErrors,
+        // errors,
+        // setErrors,
         handleInputChange
     } = useForm(getFreshModel);
     
