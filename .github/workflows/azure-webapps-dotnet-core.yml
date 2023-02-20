@@ -46,7 +46,7 @@ jobs:
           
       - name: build client static files
         run: |
-          cd client && npm install && npm run build-server-static && cd ../server
+          cd client && npm install && npm run build-server-static && cd ../server/server
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v2
