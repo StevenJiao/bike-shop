@@ -22,7 +22,7 @@ name: Build and deploy ASP.Net Core app to an Azure Web App
 env:
   AZURE_WEBAPP_NAME: my-bike-app    # set this to the name of your Azure Web App
   AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
-  DOTNET_VERSION: '7'                 # set this to the .NET Core version to use
+  DOTNET_VERSION: '7.0.x'                 # set this to the .NET Core version to use
 
 on:
   push:
@@ -33,9 +33,9 @@ permissions:
   contents: read
 
 jobs:
-  build-react:
+  build:
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v3
       
@@ -44,15 +44,9 @@ jobs:
         with:
           node-version: '16.x'
           
-      - name: npm install, build and test
+      - name: build client static files
         run: |
           cd client && npm install && npm run build-server-static
-  
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v2
