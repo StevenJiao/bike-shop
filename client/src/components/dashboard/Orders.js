@@ -19,17 +19,27 @@ function createData(id, date, name, orderer, amount) {
 
 export default function Orders({orderData}) {
   const rows = useRef([]);
-  useEffect(() => {
-    if (orderData.length > 0) {
-      let freshRows = []
-      Object.keys(orderData).forEach((key, ind) => {
-        freshRows.push(
-          createData(ind, dayjs(orderData[key].orderDate).format('YYYY-MM-DD'), orderData[key].customerName, orderData[key].adminName, orderData[key].totalPrice )
-        )
-      })
-      rows.current = freshRows;
-    }
-  }, [orderData])
+  // useEffect(() => {
+  //   if (orderData.length > 0) {
+  //     let freshRows = []
+  //     Object.keys(orderData).forEach((key, ind) => {
+  //       freshRows.push(
+  //         createData(ind, dayjs(orderData[key].orderDate).format('YYYY-MM-DD'), orderData[key].customerName, orderData[key].adminName, orderData[key].totalPrice )
+  //       )
+  //     })
+  //     rows.current = freshRows;
+  //   }
+  // }, [orderData])
+
+  if (orderData.length > 0) {
+    let freshRows = []
+    Object.keys(orderData).forEach((key, ind) => {
+      freshRows.push(
+        createData(ind, dayjs(orderData[key].orderDate).format('YYYY-MM-DD'), orderData[key].customerName, orderData[key].adminName, orderData[key].totalPrice )
+      )
+    })
+    rows.current = freshRows;
+  }
 
   return (
     <Fragment>

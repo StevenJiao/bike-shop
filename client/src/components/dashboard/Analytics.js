@@ -21,7 +21,7 @@ export default function Analytics() {
                 console.log(err);
                 navigate('/');
             });
-    }, []);
+    }, [orderData]);
     
     return (
         <Grid container spacing={3}>
