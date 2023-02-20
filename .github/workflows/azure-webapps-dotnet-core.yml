@@ -61,6 +61,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
+      - name: where are we lol
+        run: ls
+
       - name: Build with dotnet
         run: dotnet build server.csproj --configuration Release
 
