@@ -7,6 +7,7 @@ namespace server.Controllers
     {
         public IActionResult Index()
         {
+            // fallback onto the wwwroot/index.html generated from react client
             return PhysicalFile(Path.Combine(Directory.GetCurrentDirectory(),
                 "wwwroot", "index.html"), MediaTypeNames.Text.Html);
         }

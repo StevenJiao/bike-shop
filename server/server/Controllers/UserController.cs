@@ -30,6 +30,7 @@ namespace server.Controllers
             _userService = userService;
         }
 
+        // login route for authenticating a user's first login
         [AllowAnonymous]
         [HttpPost("authenticate")]
         public async Task<IActionResult> AuthenticateUser([FromBody] User user)
@@ -40,6 +41,7 @@ namespace server.Controllers
             return Ok(user.Name);
         }
 
+        // Route for user creatino
         [HttpPost("create")]
         public async Task<ActionResult<User>> CreateUser([FromBody] User user)
         {

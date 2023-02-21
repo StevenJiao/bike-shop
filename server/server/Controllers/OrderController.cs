@@ -26,6 +26,7 @@ namespace server.Controllers
             collectionId = "Orders";
         }
 
+        // creates an order in the database
         [HttpPost("create")]
         public async Task<ActionResult<Order>> CreateOrder([FromBody] Order order)
         {
@@ -34,6 +35,7 @@ namespace server.Controllers
             return Ok($"{order.Id} created successfully");
         }
 
+        // grabs all order data from the database
         [HttpGet("all")]
         public async Task<ActionResult<List<Order>>> GetAllOrders()
         {
