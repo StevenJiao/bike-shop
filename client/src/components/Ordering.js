@@ -173,10 +173,9 @@ export default function Order() {
                                                 value={selectedQty}
                                                 type="number"
                                                 onChange={(e) => setSelectedQty(e.target.value)}
-                                                inputProps={{ 
-                                                    inputMode: 'numeric', 
-                                                    pattern: '[0-9]*' 
-                                                }}
+                                                InputProps={{
+                                                    inputProps: { min: 0 }
+                                                  }}
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
