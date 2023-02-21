@@ -1,5 +1,5 @@
-import React from 'react'
-import { Button, Card, CardContent, TextField, Typography } from '@mui/material'
+import { useState }from 'react'
+import { Alert, Button, Card, CardContent, Collapse, TextField, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import Center from './Center'
 import useForm from '../hooks/useForm'
@@ -10,6 +10,7 @@ import { createAPIEndpoint, ENDPOINTS } from '../api';
 import useStateContext from '../hooks/useStateContext';
 import { useNavigate } from 'react-router';
 import { Copyright } from './Copyright';
+import CloseIcon from '@mui/icons-material/Close';
 
 const getFreshModel = () => ({
     name: '',
@@ -18,6 +19,8 @@ const getFreshModel = () => ({
 
 export default function Login() {
     const {setContext} = useStateContext();
+    const [open, setOpen] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
     const {        
@@ -45,7 +48,10 @@ export default function Login() {
                     localStorage.setItem('authData', authData);
                     navigate('/dashboard/analytics');
                 })
-                .catch(err => console.log(err));
+                .catch(err => {
+                    console.log(err);
+                    setOpen(true);
+                });
     }
 
     const validate = () => {
@@ -55,8 +61,6 @@ export default function Login() {
         setErrors(temp);
         return Object.values(temp).every(x => x === "");
     }
-
-    const [showPassword, setShowPassword] = React.useState(false)
 
     return (
         <Center>
@@ -112,6 +116,28 @@ export default function Login() {
                                 Login
                             </Button>
                         </form>
+                    </Box>
+                    <Box sx={{ width: '100%' }}>
+                        <Collapse in={open}>
+                            <Alert
+                                severity='error'
+                                action={
+                                    <IconButton
+                                        aria-label="close"
+                                        color="inherit"
+                                        size="small"
+                                        onClick={() => {
+                                            setOpen(false);
+                                        }}
+                                    >
+                                        <CloseIcon fontSize="inherit" />
+                                    </IconButton>
+                                }
+                                sx={{ mb: 2 }}
+                            >
+                                Invalid login
+                            </Alert>
+                        </Collapse>
                     </Box>
                 </CardContent>
             </Card>
