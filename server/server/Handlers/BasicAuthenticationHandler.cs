@@ -25,28 +25,33 @@ public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSc
 
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
+        // check for auth headers
         if (!Request.Headers.ContainsKey("Authorization"))
         {
             return AuthenticateResult.Fail("Missing Authorization Header");
         }
 
+        // check it's basic auth
         var authHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
         if (authHeader.Scheme != "Basic")
         {
             return AuthenticateResult.Fail("Invalid Authorization Scheme");
         }
 
+        // get credentials decoded
         var credentialsBytes = Convert.FromBase64String(authHeader.Parameter);
         var credentials = Encoding.UTF8.GetString(credentialsBytes).Split(':');
         var username = credentials[0];
         var password = credentials[1];
 
+        // authenticate the user against our database
         var user = await _userService.Authenticate(username, password);
         if (user == null)
         {
             return AuthenticateResult.Fail("Invalid Username or Password");
         }
 
+        // set our authentication ticket with authorized user
         var claims = new[]
         {
             new Claim(ClaimTypes.NameIdentifier, user.Name),

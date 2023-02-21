@@ -32,8 +32,11 @@ namespace server.Services
             collectionId = "User";
         }
 
+        // authenticates a user against the database
+        // returns a User object if found, null otherwise
         public async Task<User> Authenticate(string username, string password)
         {
+            // search for user in database
             var db_user = GetUser(username);
             if (db_user == null)
             {
@@ -52,6 +55,7 @@ namespace server.Services
             return db_user;
         }
 
+        // gets a User from the database with a matching name
         public User GetUser(string name)
         {
             var container = _client.GetContainer(databaseId, collectionId);
@@ -66,6 +70,7 @@ namespace server.Services
             return user;
         }
 
+        // hashes password with a salt using SHA256
         public string HashPassword(string password, string salt)
         {
             using (var sha256 = SHA256.Create())
@@ -76,6 +81,7 @@ namespace server.Services
             }
         }
 
+        // generates a random 16 byte salt
         public string GenerateSalt()
         {
             var salt = new byte[16];

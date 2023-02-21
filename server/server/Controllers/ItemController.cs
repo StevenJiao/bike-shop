@@ -33,6 +33,7 @@ namespace server.Controllers
             return Ok($"{item.Name} created successfully");
         }
 
+        // gets all bike items from database
         [HttpGet("all")]
         public async Task<ActionResult<List<Item>>> GetItems()
         {
@@ -56,6 +57,7 @@ namespace server.Controllers
             return Ok(items);
         }
 
+        // for searching of 1 bike item using a name
         [HttpGet("one")]
         public ActionResult<Item> GetOne(string name)
         {
