@@ -43,7 +43,7 @@ export default function Orders({orderData}) {
 
   return (
     <Fragment>
-      <Title>Recent Orders</Title>
+      <Title>All Orders</Title>
       <Table size="small">
         <TableHead>
           <TableRow>
