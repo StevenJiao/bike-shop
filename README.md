@@ -1,3 +1,4 @@
+[![Build and deploy ASP.Net Core app to an Azure Web App](https://github.com/StevenJiao/bike-shop/actions/workflows/azure-webapps-dotnet-core.yml/badge.svg)](https://github.com/StevenJiao/bike-shop/actions/workflows/azure-webapps-dotnet-core.yml)
 # bike-shop application
 A Mini-project for a bike shop platform with analytics. Frontend is built with ReactJS and mUI, backend written with .NET, and database is Azure CosmosDB. 
 
