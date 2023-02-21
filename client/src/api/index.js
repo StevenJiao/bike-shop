@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const BASE_URL = 'https://localhost:7155'
+// const BASE_URL = 'https://localhost:7155'
+const BASE_URL = 'https://my-bike-app.azurewebsites.net/'
 
 export const ENDPOINTS = {
     authenticate: 'User/authenticate',
