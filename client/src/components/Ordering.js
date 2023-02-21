@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/system'
 import dayjs from 'dayjs';
-import { Button, Card, CardContent, FormControl, Grid, TextField } from '@mui/material';
+import { Alert, Button, Card, CardContent, Collapse, FormControl, Grid, IconButton, TextField } from '@mui/material';
 import useForm from '../hooks/useForm'
 import OrderSummary from './OrderSummary';
 import DateTimeSelect from './DateTimeSelect';
@@ -9,6 +9,7 @@ import BikeMenuSelect from './BikeMenuSelect';
 import { createAPIEndpoint, ENDPOINTS } from '../api';
 import useStateContext from '../hooks/useStateContext';
 import { useNavigate } from 'react-router-dom';
+import CloseIcon from '@mui/icons-material/Close';
 
 const getFreshModel = () => ({
     customer_name: ''
@@ -21,6 +22,8 @@ export default function Order() {
     const [selectedQty, setSelectedQty] = useState(0);
     const [summaryItems, setSummaryitems] = useState([]);
     const { context } = useStateContext();
+    const [open, setOpen] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
     const navigate = useNavigate();
     
     const total = summaryItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
@@ -39,6 +42,17 @@ export default function Order() {
 
     const placeOrder = e => {
         // e.preventDefault();
+        if (!values.customer_name) {
+            setErrorMsg('Customer name must be filled.');
+            setOpen(true);
+            return;
+        }
+        else if(!Number.isInteger(total)) {
+            setErrorMsg('Quantity must be a number.');
+            setOpen(true);
+            return;
+        }
+
         let payload = {
             id: `${orderDate.format()}-${values.customer_name}`,
             adminName: context.admin_name,
@@ -50,6 +64,7 @@ export default function Order() {
                 return acc
             }, {})
         };
+
         createAPIEndpoint(ENDPOINTS.orderCreate)
             .post(payload)
             .then(res => {
@@ -87,9 +102,9 @@ export default function Order() {
                 <Card sx={{ width: "400"}}>
                     <CardContent sx={{textAlign: 'center'}}>
                         <Box sx={{
-                                '& .MuiTextField-root': {
-                                    margin: 1.5,
-                                    width: "90%"
+                            '& .MuiTextField-root': {
+                                margin: 1.5,
+                                width: "90%"
                                 }
                             }}
                         >
@@ -166,6 +181,30 @@ export default function Order() {
                     items={summaryItems}
                     total={total}
                 />
+            </Grid>
+            <Grid xs={12} item display="flex" justifyContent="center" alignItems="center">
+                <Box sx={{ width: '100%' }}>
+                    <Collapse in={open}>
+                        <Alert
+                            severity='error'
+                            action={
+                                <IconButton
+                                    aria-label="close"
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => {
+                                        setOpen(false);
+                                    }}
+                                >
+                                    <CloseIcon fontSize="inherit" />
+                                </IconButton>
+                            }
+                            sx={{ mb: 2 }}
+                        >
+                            {errorMsg}
+                        </Alert>
+                    </Collapse>
+                </Box>
             </Grid>
         </Grid>
     )
