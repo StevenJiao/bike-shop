@@ -19,10 +19,12 @@ builder.Services
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<IUserServices, UserService>();
 
+// load our .env file with our credentials
+DotNetEnv.Env.Load();
 // The Azure Cosmos DB endpoint for running this sample.
-string? EndpointUri = System.Configuration.ConfigurationManager.AppSettings["EndPointUri"];
+string? EndpointUri = Environment.GetEnvironmentVariable("EndPointUri");
 // The primary key for the Azure Cosmos account.
-string? PrimaryKey = System.Configuration.ConfigurationManager.AppSettings["PrimaryKey"];
+string? PrimaryKey = Environment.GetEnvironmentVariable("PrimaryKey");
 builder.Services.AddSingleton<CosmosClient>(x => new CosmosClient(EndpointUri, PrimaryKey));
 builder.Services.AddCors(options =>
 {
